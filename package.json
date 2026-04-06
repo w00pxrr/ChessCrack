@@ -4,18 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "serve -l 3000",
-    "build": "cp index.html style.css worker.js dist/ && echo 'Static build - no compilation needed'",
     "preview": "serve",
-    "predeploy": "mkdir -p dist && cp index.html style.css worker.js dist/",
-    "deploy": "npx gh-pages -d dist -b gh-pages"
-  },
-  "dependencies": {
-    "chess.js": "^0.13.0",
-    "@lichess-org/chessground": "^10.0.0",
-    "@lichess-org/stockfish-web": "^0.2.3"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "serve": "^14.2.0",
-    "gh-pages": "^6.1.1"
+    "eslint": "^9.0.0"
   }
 }

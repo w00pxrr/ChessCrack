@@ -1,4 +1,4 @@
 let s;
 const i=async()=>{try{const{default:S}=await import('https://cdn.jsdelivr.net/npm/@lichess-org/stockfish-web@0.2.3/sf_18.js');s=await S(await new Response('https://cdn.jsdelivr.net/npm/@lichess-org/stockfish-web@0.2.3/sf_18.wasm').arrayBuffer());s.addMessageListener(m=>{if(m?.startsWith?.('bestmove')){self.postMessage({t:'bm',m:m.split(' ')[1]})}});self.postMessage({t:'rdy'})}catch(e){self.postMessage({t:'er',m:e.message})}};
-self.onmessage=e=>{let{t:f,fen:F,d:D,s:k,mv:Mp}=e.data;if(f==='srch'&&s){s.postMessage('position fen '+F);s.postMessage('setoption name Skill Level value '+k);s.postMessage('setoption name Hash value 512');if(D>20){s.postMessage('setoption name Threads value 8');s.postMessage('setoption name SyzygyPath value')}s.postMessage('go depth '+D)}};
+self.onmessage=e=>{let{t:f,fen:F,d:D,s:k}=e.data;if(f==='srch'&&s){s.postMessage('position fen '+F);s.postMessage('setoption name Skill Level value '+k);s.postMessage('setoption name Hash value 512');if(D>20){s.postMessage('setoption name Threads value 8');s.postMessage('setoption name SyzygyPath value')}s.postMessage('go depth '+D)}};
 i();
