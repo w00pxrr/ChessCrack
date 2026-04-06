@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ZeroLatency</title>
+<title>ChessCrack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -11,31 +11,31 @@
 </head>
 <body>
 <main class="g">
-<header class="h"><h1>ZeroLatency</h1><div class="s" id="st">Your move</div></header>
+<header class="h"><h1>ChessCrack</h1><div class="s" id="st">White's turn</div></header>
 <div class="b"><div id="bo"></div></div>
 <nav class="c">
-<button class="d a" data-m="e">Easy</button>
-<button class="d" data-m="m">Med</button>
-<button class="d" data-m="h">Hard</button>
-<button class="d boss" data-m="b">BOSS</button>
-<button class="d" data-m="host">Host</button>
-<button class="d" data-m="join">Join</button>
+<button class="d" data-m="n">Noob</button>
+<button class="d" data-m="s">Sped</button>
+<button class="d" data-m="e">Pro</button>
+<button class="d" data-m="m">Hacker</button>
+<button class="d" data-m="h">God</button>
+<button class="d a" data-m="l">Legend</button>
+<button class="d" data-m="p">2 Player</button>
 </nav>
 </main>
 <script type="module">
 import{Chess as C}from'https://cdn.jsdelivr.net/npm/chess.js@0.13.0/+esm';
 import{Board as B}from'https://cdn.jsdelivr.net/npm/@lichess-org/chessground@10/+esm';
-const DIFF={e:{d:8,s:0},m:{d:12,s:5},h:{d:18,s:20},b:{d:32,s:20,mpv:1,mn:512}};
+const DIFF={n:{d:3,s:0},s:{d:0,s:0},e:{d:8,s:0},m:{d:12,s:5},h:{d:18,s:20},l:{d:20,s:20}};
 const FEN='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 const g=new C(),st=document.getElementById('st'),bo=document.getElementById('bo'),bt=document.querySelectorAll('.d');
-let W,md='e',my=!0,lm,ch;
+let md='l',my=!0,lm;
 function sc(x){st.textContent=x}
 function gd(){const m=new Map(),p=g.board();for(let r=0;r<8;r++)for(let c=0;c<8;c++){let b=p[r]?.[c];if(b&&b.color===g.turn()){let f=b.square,v=g.moves({square:f,verbose:!0});v.length&&m.set(f,new Set(v.map(x=>x.to)))}}return m}
 function ub(){B(bo).set({fen:g.fen(),movable:{color:my?g.turn():null,dests:my?gd():null},lastMove:lm?[lm.from,lm.to]:null,check:g.inCheck()?g.turn():null})}
-function nm(x){sc(x);ch=new BroadcastChannel('zl-'+(x==='host'?Math.random().toString(36).slice(2,8):x.slice(1)));ch.onmessage=e=>{let M=e.data.m?g.move(e.data.m,{sloppy:!0}):null;M&&(lm={from:M.from,to:M.to},my=!0,sc('Opponent moved'),ub())};W={postMessage:m=>ch.postMessage({t:'mv',m})};my=x==='host'}
-W=new Worker('/worker.js',{type:'module'});W.onmessage=e=>{e.data.t==='rdy'?sc('Your move'):e.data.t==='bm'&&e.data.m&&(g.move(e.data.m,{sloppy:!0})?(lm={from:g.history().pop().from,to:g.history().pop().to},my=!0,ub(),sc('Your move')):0)};
-B(bo,{fen:FEN,draggable:!0,movable:{color:'white',dests:gd()},events:{move:(f,t0)=>{if(!my)return;let M=g.move({from:f,to:t0,promotion:'q'});if(!M){ub();return}lm={from:f,to:t0};my=!1;ub();if(md==='host'||md==='join'){W.postMessage(g.fen());sc('Waiting...')}else{sc('Crushing...');W.postMessage({t:'srch',fen:g.fen(),...DIFF[md]})}});
-bt.forEach(b=>b.onclick=()=>{md=b.dataset.m;if(md==='host'||md==='join'){nm(md)}else if(DIFF[md]){sc(md==='b'?'BOSS MODE':'Level: '+md.toUpperCase())}bt.forEach(x=>x.classList.remove('a'));b.classList.add('a')});
+let W=new Worker('/worker.js',{type:'module'});W.onmessage=e=>{e.data.t==='rdy'?sc('Your move'):e.data.t==='bm'&&e.data.m&&(g.move(e.data.m,{sloppy:!0})?(lm={from:g.history().pop().from,to:g.history().pop().to},my=!0,ub(),sc('Your move')):0)};
+B(bo,{fen:FEN,draggable:!0,movable:{color:'white',dests:gd()},events:{move:(f,t0)=>{if(!my)return;let M=g.move({from:f,to:t0,promotion:'q'});if(!M){ub();return}lm={from:f,to:t0};my=!1;ub();if(md==='p'){my=!0;sc(g.turn()===g.WHITE?'Black\'s turn':'White\'s turn');ub()}else{sc('Crushing...');W.postMessage({t:'srch',fen:g.fen(),...DIFF[md]})}}});
+bt.forEach(b=>b.onclick=()=>{md=b.dataset.m;bt.forEach(x=>x.classList.remove('a'));b.classList.add('a');if(md==='p'){g.reset();my=!0;sc(g.turn()===g.WHITE?"White's turn":"Black's turn");ub()}else{sc('Level: '+md.toUpperCase())}});
 </script>
 </body>
 </html>

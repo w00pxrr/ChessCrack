@@ -1,6 +1,6 @@
-# ZeroLatency Chess
+# ChessCrack
 
-Ultra-optimized Player vs AI/LAN chess application. **4.8KB total.**
+Ultra-optimized Player vs AI chess application. **4.8KB total.**
 
 ## Performance
 
@@ -11,43 +11,29 @@ Ultra-optimized Player vs AI/LAN chess application. **4.8KB total.**
 | Chess.com | ~600KB | ✗ | ✗ | ~200ms |
 | chess24.com | ~350KB | ✗ | ✗ | ~180ms |
 
-## Install (pnpm)
-
-```bash
-pnpm create zero-chess
-cd zero-chess
-pnpm dev
-```
-
-Or add packages manually:
-
-```bash
-pnpm add chess.js @lichess-org/chessground @lichess-org/stockfish-web
-```
 
 ## Serve
 
 ```bash
 # Direct serve
 npx serve public
-
-# Or Vercel
-vercel deploy --prod
 ```
 
 ## Modes
 
 - **vs AI** - Stockfish 18 (depth 8-18)
-- **Host** - Create LAN game (share code)
-- **Join** - Connect to host
+- **2 Player** - Pass and play on same device
 
 ## Difficulty
 
 | Level | Depth | Skill | ELO |
 |-------|-------|-------|-----|
-| Easy | 8 | 0 | ~1200 |
-| Medium | 12 | 5 | ~1600 |
-| Hard | 18 | 20 | ~2000+ |
+| Sped | 0 | 0 | ~500 |
+| Noob | 3 | 0 | ~700 |
+| Pro | 8 | 0 | ~1200 |
+| Hacker | 12 | 5 | ~1600 |
+| God | 18 | 20 | ~2000 |
+| Legend | 20 | 20 | ~2500+ |
 
 ## Architecture
 
